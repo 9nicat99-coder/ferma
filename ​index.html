@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Şən Fermer</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #e2f0d9; text-align: center; margin: 0; padding: 20px; }
+        h1 { color: #2e7d32; }
+        .card { background: white; border-radius: 10px; padding: 15px; margin: 10px auto; max-width: 400px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        button { background-color: #4caf50; color: white; border: none; padding: 10px 15px; border-radius: 5px; font-size: 16px; cursor: pointer; margin: 5px; }
+        button:hover { background-color: #388e3c; }
+        .admin-btn { background-color: #d32f2f; }
+        .admin-btn:hover { background-color: #b71c1c; }
+    </style>
+</head>
+<body>
+    <h1>🌾 Şən Fermer 🌾</h1>
+    <div class="card">
+        <h3>Sizin Ferma</h3>
+        <p>💰 Bütçə: <span id="coins">100</span> Sikkə</p>
+        <p>🌾 Məhsul: <span id="crops">0</span> ədəd</p>
+        <button onclick="plantCrop()">Məhsul Ək (10 Sikkə)</button>
+        <button onclick="harvestCrop()">Məhsul Yığ</button>
+    </div>
+
+    <div class="card">
+        <h3>Admin Paneli</h3>
+        <button class="admin-btn" onclick="addAdminCoins()">+500 Sikkə Əlavə Et</button>
+    </div>
+
+    <script>
+        let coins = parseInt(localStorage.getItem('ferma_coins')) || 100;
+        let crops = parseInt(localStorage.getItem('ferma_crops')) || 0;
+
+        function updateUI() {
+            document.getElementById('coins').innerText = coins;
+            document.getElementById('crops').innerText = crops;
+            localStorage.setItem('ferma_coins', coins);
+            localStorage.setItem('ferma_crops', crops);
+        }
+
+        function plantCrop() {
+            if (coins >= 10) {
+                coins -= 10;
+                crops += 1;
+                updateUI();
+                alert("Məhsul əkildi!");
+            } else {
+                alert("Kifayət qədər sikkəniz yok!");
+            }
+        }
+
+        function harvestCrop() {
+            if (crops > 0) {
+                coins += crops * 15;
+                alert(crops + " ədəd məhsul satıldı! +" + (crops * 15) + " Sikkə");
+                crops = 0;
+                updateUI();
+            } else {
+                alert("Yığılacaq məhsul yoxdur!");
+            }
+        }
+
+        function addAdminCoins() {
+            coins += 500;
+            updateUI();
+            alert("Admin: 500 Sikkə əlavə olundu!");
+        }
+
+        updateUI();
+    </script>
+</body>
+</html>
